@@ -1,0 +1,30 @@
+.kept-loader {
+	display: grid;
+	place-items: center;
+	align-content: center;
+	gap: 1.5rem;
+	min-height: 100vh;
+	background: #f4f1e8;
+
+	> span {
+		width: 2.2rem;
+		height: 0.22rem;
+		overflow: hidden;
+		border-radius: 999px;
+		background: #ddd8cb;
+
+		&::after {
+			content: "";
+			display: block;
+			width: 60%;
+			height: 100%;
+			border-radius: inherit;
+			background: #2f7d5b;
+			animation: kept-loading 0.9s ease-in-out infinite alternate;
+		}
+	}
+}
+
+@keyframes kept-loading {
+	to { transform: translateX(70%); }
+}

@@ -1,0 +1,31 @@
+.kept-progress-ring {
+	position: relative;
+	display: grid;
+	flex: 0 0 auto;
+	place-items: center;
+	width: 7.2rem;
+	height: 7.2rem;
+	border-radius: 50%;
+	background: conic-gradient(#f2c66f var(--progress), rgba(255, 255, 255, 0.18) 0);
+
+	&::before {
+		content: "";
+		position: absolute;
+		inset: 0.55rem;
+		border-radius: inherit;
+		background: #1f5c45;
+	}
+
+	> div { position: relative; z-index: 1; text-align: center; }
+	strong, span { display: block; }
+	strong { color: #fff; font-size: 2rem; letter-spacing: -0.06em; }
+	span { margin-top: 0.12rem; color: rgba(255, 255, 255, 0.7); font-size: 0.56rem; }
+
+	&.small {
+		width: 4.4rem;
+		height: 4.4rem;
+		&::before { inset: 0.35rem; }
+		strong { font-size: 1.15rem; }
+		span { font-size: 0.46rem; }
+	}
+}

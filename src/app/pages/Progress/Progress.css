@@ -1,0 +1,59 @@
+.kept-progress-page {
+	.kept-progress-overview { display: grid; grid-template-columns: minmax(16rem, 1.5fr) repeat(3, minmax(8rem, 0.6fr)); gap: 0.8rem; }
+	.kept-progress-lead { grid-row: span 2; padding: 1.25rem; background: #1f5c45; color: white; }
+	.kept-progress-lead > span { color: #b7d3c1; font: 750 0.55rem/1 monospace; letter-spacing: 0.08em; }
+	.kept-progress-lead > strong { display: block; margin: 0.75rem 0 0.45rem; font-size: 2.8rem; letter-spacing: -0.08em; }
+	.kept-progress-lead p { max-width: 27rem; color: rgba(255, 255, 255, 0.68); font-size: 0.68rem; line-height: 1.5; }
+	.kept-big-track { height: 0.42rem; margin-top: 1.2rem; overflow: hidden; border-radius: 999px; background: rgba(255, 255, 255, 0.14); }
+	.kept-big-track i { display: block; height: 100%; border-radius: inherit; background: #f2c66f; }
+	.kept-progress-metric { display: flex; align-items: center; gap: 0.65rem; padding: 1rem; }
+	.kept-progress-metric > span { display: grid; place-items: center; width: 2.3rem; height: 2.3rem; border-radius: 0.7rem; background: #eef2e9; color: #2f7d5b; }
+	.kept-progress-metric strong, .kept-progress-metric small { display: block; }
+	.kept-progress-metric strong { font-size: 1.1rem; letter-spacing: -0.04em; }
+	.kept-progress-metric small { margin-top: 0.2rem; color: #8f9189; font-size: 0.55rem; }
+	.kept-progress-section-heading { display: flex; align-items: flex-end; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }
+	.kept-progress-section-heading h2 { font-size: 0.95rem; }
+	.kept-progress-section-heading p { margin-top: 0.28rem; color: #8b8d85; font-size: 0.64rem; }
+	.kept-progress-section-heading > span { color: #7b7d75; font: 700 0.6rem/1 monospace; }
+	.kept-week-pulse { margin-top: 1rem; padding: 1.2rem; }
+	.kept-week-bars { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 0.8rem; height: 13rem; padding-top: 0.5rem; }
+	.kept-week-bars > div { display: grid; grid-template-rows: 1fr auto; gap: 0.6rem; text-align: center; }
+	.kept-week-bars > div > div { position: relative; display: flex; align-items: flex-end; justify-content: center; overflow: hidden; border-radius: 0.7rem; background: #f0eee8; }
+	.kept-week-bars span { width: 100%; min-height: 0.25rem; border-radius: 0.7rem 0.7rem 0 0; background: linear-gradient(#62a47d, #2f7d5b); transition: height 0.4s ease; }
+	.kept-week-bars i { position: absolute; top: 0; right: 0; left: 0; margin-top: 0.35rem; color: #81837b; font-size: 0.5rem; font-style: normal; }
+	.kept-week-bars > div > strong { color: #898b83; font: 700 0.58rem/1 monospace; }
+	.kept-habit-progress-section, .kept-progress-milestones { margin-top: 2rem; }
+	.kept-habit-progress-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.8rem; }
+	.kept-habit-progress-card { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 0.75rem; padding: 1rem; transition: transform 0.15s ease, box-shadow 0.15s ease; }
+	.kept-habit-progress-card:hover { transform: translateY(-1px); box-shadow: 0 0.8rem 1.8rem rgba(55, 50, 39, 0.06); }
+	.kept-progress-habit-icon { display: grid; place-items: center; width: 2.5rem; height: 2.5rem; border-radius: 0.75rem; background: color-mix(in srgb, var(--habit-color) 12%, white); color: var(--habit-color); }
+	.kept-progress-habit-title strong, .kept-progress-habit-title small { display: block; }
+	.kept-progress-habit-title strong { font-size: 0.72rem; }
+	.kept-progress-habit-title small { margin-top: 0.22rem; color: #989991; font-size: 0.54rem; }
+	.kept-habit-progress-card > svg { color: #a0a19a; }
+	.kept-progress-numbers { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; padding-top: 0.4rem; }
+	.kept-progress-numbers span { color: #9a9b94; font-size: 0.52rem; }
+	.kept-progress-numbers strong { display: block; margin-bottom: 0.15rem; color: #4d5049; font-size: 0.72rem; }
+	.kept-habit-track { grid-column: 1 / -1; height: 0.28rem; overflow: hidden; border-radius: 999px; background: #eeeae1; }
+	.kept-habit-track i { display: block; height: 100%; border-radius: inherit; background: var(--habit-color); }
+	.kept-progress-milestone-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.8rem; }
+	.kept-progress-empty { display: flex; align-items: center; gap: 0.8rem; padding: 1.2rem; color: #86887f; }
+	.kept-progress-empty svg { color: #2f7d5b; }
+	.kept-past-milestones { margin-top: 1rem; }
+	.kept-past-milestones summary { margin-bottom: 0.8rem; color: #74766e; font-size: 0.65rem; font-weight: 700; cursor: pointer; }
+}
+
+@media (max-width: 1000px) {
+	.kept-progress-page .kept-progress-overview { grid-template-columns: repeat(3, 1fr); }
+	.kept-progress-page .kept-progress-lead { grid-column: 1 / -1; grid-row: auto; }
+}
+
+@media (max-width: 680px) {
+	.kept-progress-page {
+		.kept-progress-overview { grid-template-columns: 1fr; }
+		.kept-progress-lead { grid-column: auto; }
+		.kept-progress-metric { display: none; }
+		.kept-week-bars { gap: 0.35rem; height: 10rem; }
+		.kept-habit-progress-grid, .kept-progress-milestone-grid { grid-template-columns: 1fr; }
+	}
+}

@@ -1,0 +1,29 @@
+services:
+  - type: cron
+    name: kept-reminders
+    runtime: node
+    plan: starter
+    region: frankfurt
+    schedule: "* * * * *"
+    buildCommand: npm ci
+    startCommand: npm run reminders:run
+    autoDeployTrigger: commit
+    envVars:
+      - key: NODE_VERSION
+        value: "24"
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: APP_URL
+        sync: false
+      - key: VAPID_SUBJECT
+        sync: false
+      - key: VAPID_PUBLIC_KEY
+        sync: false
+      - key: VAPID_PRIVATE_KEY
+        sync: false
+      - key: RESEND_API_KEY
+        sync: false
+      - key: RESEND_FROM_EMAIL
+        sync: false

@@ -1,0 +1,169 @@
+.kept-shell {
+	display: grid;
+	grid-template-columns: 15.5rem minmax(0, 1fr);
+	min-height: 100vh;
+
+	.kept-offline-banner {
+		position: fixed;
+		z-index: 110;
+		top: 0;
+		right: 0;
+		left: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.45rem;
+		padding: 0.55rem 1rem;
+		background: #272924;
+		color: #fff;
+		font-size: 0.68rem;
+	}
+
+	.kept-sidebar {
+		position: sticky;
+		top: 0;
+		display: flex;
+		flex-direction: column;
+		height: 100vh;
+		padding: 1.25rem;
+		border-right: 1px solid #ddd8cc;
+		background: #fbfaf5;
+	}
+
+	.kept-local-chip {
+		display: flex;
+		align-items: center;
+		gap: 0.4rem;
+		width: fit-content;
+		margin: 1.5rem 0 0.8rem;
+		padding: 0.35rem 0.55rem;
+		border: 1px solid #d7dfd4;
+		border-radius: 999px;
+		background: #eef3eb;
+		color: #66806d;
+		font: 700 0.56rem/1 monospace;
+		text-transform: uppercase;
+
+		span { width: 0.38rem; height: 0.38rem; border-radius: 50%; background: #2f7d5b; box-shadow: 0 0 0 0.2rem rgba(47, 125, 91, 0.1); }
+	}
+
+	.kept-new-habit-button {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.5rem;
+		min-height: 2.75rem;
+		border-radius: 0.72rem;
+		background: #20231f;
+		color: #fff;
+		font-size: 0.75rem;
+		font-weight: 720;
+		box-shadow: 0 0.4rem 1rem rgba(32, 35, 31, 0.12);
+	}
+
+	.kept-sidebar nav {
+		display: grid;
+		gap: 0.25rem;
+		margin-top: 1.35rem;
+
+		a {
+			display: flex;
+			align-items: center;
+			gap: 0.75rem;
+			padding: 0.75rem;
+			border-radius: 0.65rem;
+			color: #73756e;
+			font-size: 0.74rem;
+			font-weight: 650;
+			transition: color 0.15s ease, background 0.15s ease;
+
+			&:hover, &.active { background: #e9eee6; color: #254b37; }
+			svg { font-size: 1rem; }
+		}
+	}
+
+	.kept-sidebar-thought {
+		margin-top: auto;
+		padding: 0.85rem;
+		border: 1px solid #e3ded2;
+		border-radius: 0.85rem;
+		background: #f7f1e4;
+
+		span { color: #a17e35; font: 750 0.53rem/1 monospace; letter-spacing: 0.08em; }
+		p { margin-top: 0.5rem; color: #766b55; font-size: 0.65rem; line-height: 1.5; }
+	}
+
+	.kept-sidebar-account {
+		display: grid;
+		grid-template-columns: auto minmax(0, 1fr) auto;
+		align-items: center;
+		gap: 0.65rem;
+		margin-top: 0.8rem;
+		padding-top: 0.8rem;
+		border-top: 1px solid #e1dcd0;
+
+		.kept-avatar { display: grid; place-items: center; width: 2rem; height: 2rem; border-radius: 50%; background: #dce8de; color: #2f6d4e; font: 700 0.65rem/1 monospace; }
+		> div { min-width: 0; }
+		strong, small { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+		strong { font-size: 0.68rem; }
+		small { margin-top: 0.18rem; color: #91928c; font-size: 0.56rem; }
+		button { display: grid; place-items: center; width: 2rem; height: 2rem; border: 0; border-radius: 0.5rem; background: transparent; color: #85867f; }
+		button:hover { background: #efede7; color: #333; }
+	}
+
+	.kept-main-column { min-width: 0; }
+	.kept-content { width: min(78rem, 100%); margin: 0 auto; padding: clamp(1.5rem, 4vw, 3.5rem); }
+	.kept-mobile-header, .kept-bottom-nav { display: none; }
+}
+
+@media (max-width: 800px) {
+	.kept-shell {
+		display: block;
+		padding-bottom: calc(4.6rem + env(safe-area-inset-bottom));
+		.kept-sidebar { display: none; }
+		.kept-mobile-header {
+			position: sticky;
+			z-index: 30;
+			top: 0;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			height: 4rem;
+			padding: 0 1rem;
+			border-bottom: 1px solid #ddd8cc;
+			background: rgba(251, 250, 245, 0.94);
+			backdrop-filter: blur(16px);
+
+			.kept-mobile-actions {
+				display: flex;
+				align-items: center;
+				gap: 0.45rem;
+
+				a,
+				button { display: grid; place-items: center; width: 2.35rem; height: 2.35rem; border-radius: 0.7rem; }
+				a { background: #20231f; color: white; }
+				button { border: 1px solid #d9d4c9; background: #fffefa; color: #777a72; }
+				button:hover { border-color: #bfbbb1; color: #9f4736; }
+			}
+		}
+		.kept-content { padding: 1.25rem 1rem 2rem; }
+		.kept-bottom-nav {
+			position: fixed;
+			z-index: 40;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			display: grid;
+			grid-template-columns: repeat(4, 1fr);
+			height: calc(4.3rem + env(safe-area-inset-bottom));
+			padding-bottom: env(safe-area-inset-bottom);
+			border-top: 1px solid #ddd8cc;
+			background: rgba(255, 254, 250, 0.96);
+			backdrop-filter: blur(16px);
+
+			a { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.25rem; color: #8b8c85; font-size: 0.56rem; font-weight: 680; }
+			a.active { color: #1f5c45; }
+			svg { font-size: 1.15rem; }
+		}
+	}
+}

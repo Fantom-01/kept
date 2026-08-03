@@ -1,0 +1,9 @@
+project_id = "kept"
+
+[auth]
+site_url = "http://127.0.0.1:4174"
+additional_redirect_urls = ["http://localhost:4173", "http://127.0.0.1:4173", "http://127.0.0.1:4174"]
+
+[auth.email.template.magic_link]
+subject = "{{ .Token }} is your Kept sign-in code"
+content_path = "./supabase/templates/magic_link.html"
