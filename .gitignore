@@ -4,5 +4,6 @@ dist
 .env.local
 .vercel
 .supabase
+supabase/.temp
 .DS_Store
 coverage
