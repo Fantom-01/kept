@@ -46,7 +46,7 @@ Use `npm run build && npm run preview` when testing installation, the service wo
 - `src/app/utils/habitUtils.js` owns recurrence, state, streak, consistency, and milestone calculations.
 - `src/app/pages` and `src/app/components` follow the colocated JSX/CSS structure used in Roadkit.
 - `public/manifest.webmanifest` and `public/sw.js` provide the installable PWA shell and Web Push handler.
-- `server/runReminders.js` is the Render cron entrypoint for push and email fallback delivery.
+- `server/runReminders.js` is the GitHub Actions entrypoint for push and email fallback delivery.
 - `supabase/migrations` owns the production schema, RLS policies, indexes, triggers, and transactional habit creation function.
 
 Screens never read persistence directly. Both adapters preserve the same components, query keys, mutations, and interaction patterns.
@@ -68,7 +68,7 @@ Screens never read persistence directly. Both adapters preserve the same compone
 
 - Supabase Auth email OTP, with Resend as custom SMTP.
 - Supabase Postgres with RLS for profiles, habits, schedules, check-ins, milestones, and push subscriptions.
-- A Node.js cron service on Render for reminder scheduling, Web Push, and Resend fallback delivery.
+- A scheduled GitHub Actions job for reminder scheduling, Web Push, and Resend fallback delivery. The same Node.js worker can move to a VPS or paid cron service later.
 - Vercel for the Vite frontend.
 
 See `docs/HOSTING.md` for the deployment and acceptance checklist. Do not place service-role, Resend, or VAPID private keys in Vite environment variables.

@@ -2,6 +2,7 @@ import { createClient } from "@supabase/supabase-js";
 import { Resend } from "resend";
 import webpush from "web-push";
 import { dueReminders } from "./reminderSchedule.js";
+import { runSupabaseQuery } from "./supabaseRetry.js";
 
 function required(name) {
 	const value = process.env[name];
@@ -50,14 +51,13 @@ function deliveryKey(item, channel) {
 }
 
 async function recordDelivery(supabase, item, channel) {
-	const { error } = await supabase.from("notification_deliveries").upsert({
+	await runSupabaseQuery(`Record ${channel} delivery`, () => supabase.from("notification_deliveries").upsert({
 		user_id: item.habit.user_id,
 		habit_id: item.habit.id,
 		date_key: item.dateKey,
 		slot: item.slot,
 		channel,
-	}, { onConflict: "user_id,habit_id,date_key,slot,channel", ignoreDuplicates: true });
-	if (error) throw error;
+	}, { onConflict: "user_id,habit_id,date_key,slot,channel", ignoreDuplicates: true }));
 }
 
 async function sendPush({ supabase, subscriptions, item, profile, appUrl }) {
@@ -79,7 +79,7 @@ async function sendPush({ supabase, subscriptions, item, profile, appUrl }) {
 			delivered = true;
 		} catch (error) {
 			if (error.statusCode === 404 || error.statusCode === 410) {
-				await supabase.from("push_subscriptions").delete().eq("id", subscription.id);
+				await runSupabaseQuery("Remove expired push subscription", () => supabase.from("push_subscriptions").delete().eq("id", subscription.id));
 				continue;
 			}
 			console.error(`Push delivery failed for subscription ${subscription.id}: ${error.message}`);
@@ -107,7 +107,7 @@ async function sendEmail({ resend, item, profile, appUrl }) {
 
 export async function runReminders(now = new Date()) {
 	const supabase = createClient(required("SUPABASE_URL"), required("SUPABASE_SERVICE_ROLE_KEY"), {
-		auth: { autoRefreshToken: false, persistSession: false },
+		auth: { autoRefreshToken: false, persistSession: false, detectSessionInUrl: false },
 	});
 	const appUrl = required("APP_URL").replace(/\/$/, "");
 	const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
@@ -121,13 +121,10 @@ export async function runReminders(now = new Date()) {
 	}
 
 	const [habitsResult, profilesResult, subscriptionsResult] = await Promise.all([
-		supabase.from("habits").select("*").contains("reminders", { enabled: true }),
-		supabase.from("profiles").select("*"),
-		supabase.from("push_subscriptions").select("*"),
+		runSupabaseQuery("Load reminder-enabled habits", () => supabase.from("habits").select("*").contains("reminders", { enabled: true })),
+		runSupabaseQuery("Load reminder profiles", () => supabase.from("profiles").select("*")),
+		runSupabaseQuery("Load push subscriptions", () => supabase.from("push_subscriptions").select("*")),
 	]);
-	for (const result of [habitsResult, profilesResult, subscriptionsResult]) {
-		if (result.error) throw result.error;
-	}
 
 	const profiles = indexBy(profilesResult.data, "user_id");
 	const subscriptions = groupBy(subscriptionsResult.data, "user_id");
@@ -140,11 +137,9 @@ export async function runReminders(now = new Date()) {
 	const habitIds = [...new Set(candidates.map((item) => item.habit.id))];
 	const dateKeys = [...new Set(candidates.map((item) => item.dateKey))];
 	const [checkInsResult, deliveriesResult] = await Promise.all([
-		supabase.from("check_ins").select("habit_id,date_key,slot").in("habit_id", habitIds).in("date_key", dateKeys),
-		supabase.from("notification_deliveries").select("user_id,habit_id,date_key,slot,channel").in("habit_id", habitIds).in("date_key", dateKeys),
+		runSupabaseQuery("Load completed check-ins", () => supabase.from("check_ins").select("habit_id,date_key,slot").in("habit_id", habitIds).in("date_key", dateKeys)),
+		runSupabaseQuery("Load reminder deliveries", () => supabase.from("notification_deliveries").select("user_id,habit_id,date_key,slot,channel").in("habit_id", habitIds).in("date_key", dateKeys)),
 	]);
-	if (checkInsResult.error) throw checkInsResult.error;
-	if (deliveriesResult.error) throw deliveriesResult.error;
 
 	const completed = new Set(checkInsResult.data.map((row) => `${row.habit_id}:${row.date_key}:${row.slot}`));
 	const deliveries = new Set(deliveriesResult.data.map((row) => `${row.user_id}:${row.habit_id}:${row.date_key}:${row.slot}:${row.channel}`));

@@ -23,8 +23,8 @@ describe("reminder scheduling", () => {
 		expect(isScheduledOnDate(habit, "2026-08-04")).toBe(false);
 	});
 
-	it("keeps a short delivery window so a delayed cron run is not missed", () => {
-		expect(dueReminders(habit, new Date("2026-08-03T07:07:00Z"), "Africa/Lagos")).toHaveLength(1);
-		expect(dueReminders(habit, new Date("2026-08-03T07:11:00Z"), "Africa/Lagos")).toHaveLength(0);
+	it("keeps a bounded catch-up window so a delayed cron run is not missed", () => {
+		expect(dueReminders(habit, new Date("2026-08-03T07:19:00Z"), "Africa/Lagos")).toHaveLength(1);
+		expect(dueReminders(habit, new Date("2026-08-03T07:21:00Z"), "Africa/Lagos")).toHaveLength(0);
 	});
 });

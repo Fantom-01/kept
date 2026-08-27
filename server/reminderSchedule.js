@@ -75,7 +75,7 @@ export function isScheduledOnDate(habit, dateKey) {
 	return false;
 }
 
-export function dueReminders(habit, now, timezone, windowMinutes = 10) {
+export function dueReminders(habit, now, timezone, windowMinutes = 20) {
 	const clock = localClock(now, timezone);
 	if (!isScheduledOnDate(habit, clock.dateKey)) return [];
 	const currentMinute = clock.hour * 60 + clock.minute;

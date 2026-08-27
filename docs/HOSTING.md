@@ -5,7 +5,7 @@ Kept has four hosted pieces:
 1. Supabase owns passwordless authentication and the private database.
 2. Resend delivers the Supabase sign-in code and optional reminder emails.
 3. Vercel serves the React PWA.
-4. A Render cron job sends scheduled Web Push reminders and email fallbacks.
+4. A GitHub Actions schedule sends Web Push reminders and email fallbacks.
 
 ## Public frontend variables
 
@@ -28,9 +28,11 @@ The publishable Supabase key and VAPID public key are safe to expose in the brow
 - Replace the Magic Link email template with `supabase/templates/magic_link.html` and the Confirm sign up template with `supabase/templates/confirmation.html`. Both use `{{ .Token }}`, so new and returning users receive the same six-digit code expected by the app.
 - Connect Resend as the Supabase email provider after its sending domain is verified.
 
-## Render reminder job
+## GitHub Actions reminder job
 
-Create a Blueprint from `render.yaml` and provide every secret marked `sync: false`. The cron job runs every minute but deduplicates successful deliveries in `notification_deliveries`. Render cron jobs have a minimum monthly charge.
+The workflow in `.github/workflows/reminders.yml` runs the reminder worker on a five-minute schedule, offset from the start of the hour to reduce GitHub queue pressure, and can also be dispatched manually. Add the server-only values listed in the workflow as GitHub Actions repository secrets. The worker accepts reminders up to 20 minutes late and deduplicates successful deliveries in `notification_deliveries`.
+
+Managed Supabase projects can occasionally return `PGRST303: JWT issued at future` when the gateway and PostgREST clocks briefly disagree. The worker retries only this specific transient response with bounded backoff; permissions, invalid credentials, and other permanent errors still fail immediately with the database phase included in the log.
 
 ## Acceptance pass
 
@@ -39,5 +41,5 @@ Create a Blueprint from `render.yaml` and provide every secret marked `sync: fal
 - Save and clear build, count, sober, and lapse check-ins.
 - Sign out and back in on another browser and confirm the same record appears.
 - Enable notifications in the installed PWA and confirm `push_subscriptions` receives one row.
-- Temporarily set a habit reminder a few minutes ahead, trigger the Render job, and confirm exactly one push or fallback email arrives.
+- Temporarily set a habit reminder a few minutes ahead, dispatch the GitHub Actions reminder workflow, and confirm exactly one push or fallback email arrives.
 - Confirm a second account cannot read or mutate the first account's rows.
