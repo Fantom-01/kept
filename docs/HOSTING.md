@@ -24,7 +24,8 @@ The publishable Supabase key and VAPID public key are safe to expose in the brow
 
 - Create a project, link this repository, and apply the migration in `supabase/migrations`.
 - In Authentication → URL Configuration, set the Site URL to the Vercel production URL and allow the Vercel preview pattern while testing.
-- Replace the Magic Link email template with `supabase/templates/magic_link.html`. Its `{{ .Token }}` variable makes Supabase send the six-digit OTP expected by the app.
+- Set **Email OTP length** to `6` in Authentication → Sign In / Providers → Email.
+- Replace the Magic Link email template with `supabase/templates/magic_link.html` and the Confirm sign up template with `supabase/templates/confirmation.html`. Both use `{{ .Token }}`, so new and returning users receive the same six-digit code expected by the app.
 - Connect Resend as the Supabase email provider after its sending domain is verified.
 
 ## Render reminder job

@@ -7,7 +7,7 @@ import App from "./App.jsx";
 import { localAdapter } from "./app/api/adapters/localAdapter.js";
 import { AppProvider } from "./app/context/AppContext.jsx";
 
-async function renderSignedInApp() {
+async function renderSignedInApp(initialEntry = "/app") {
 	const attempt = await localAdapter.requestOtp("you@kept.local");
 	await localAdapter.verifyOtp(attempt.email, attempt.devCode);
 	const queryClient = new QueryClient({
@@ -15,7 +15,7 @@ async function renderSignedInApp() {
 	});
 
 	return render(
-		<MemoryRouter initialEntries={["/app"]}>
+		<MemoryRouter initialEntries={[initialEntry]}>
 			<QueryClientProvider client={queryClient}>
 				<AppProvider>
 					<App />
@@ -49,5 +49,21 @@ describe("Kept app shell", () => {
 		expect(await screen.findByText("Recorded without judgment")).toBeInTheDocument();
 		expect(screen.getByText("A lapse is information. What matters now is your next choice.")).toBeInTheDocument();
 		expect(screen.getByRole("button", { name: "Dismiss notification" })).toBeInTheDocument();
+	});
+
+	it("lets the user persistently switch between light and dark mode", async () => {
+		const user = userEvent.setup();
+		document.documentElement.dataset.theme = "light";
+		await renderSignedInApp("/app/settings");
+
+		const themeSwitch = await screen.findByRole("switch", { name: "Dark mode" });
+		expect(themeSwitch).toHaveAttribute("aria-checked", "false");
+		await user.click(themeSwitch);
+		expect(themeSwitch).toHaveAttribute("aria-checked", "true");
+		expect(document.documentElement).toHaveAttribute("data-theme", "dark");
+		expect(localStorage.getItem("kept_theme")).toBe("dark");
+
+		await user.click(themeSwitch);
+		expect(document.documentElement).toHaveAttribute("data-theme", "light");
 	});
 });

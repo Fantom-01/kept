@@ -5,6 +5,8 @@ import { ProtectedRoute, PublicOnlyRoute } from "./app/routes/RouteGuards.jsx";
 import PageLoader from "./app/components/PageLoader/PageLoader.jsx";
 import Landing from "./pages/Landing/Landing.jsx";
 import "./App.css";
+import "./Theme.css";
+import "./Legibility.css";
 
 const AuthLayout = lazy(() => import("./app/layouts/AuthLayout/AuthLayout.jsx"));
 const AppLayout = lazy(() => import("./app/layouts/AppLayout/AppLayout.jsx"));

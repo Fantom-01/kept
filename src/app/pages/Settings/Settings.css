@@ -15,6 +15,14 @@
 	.kept-setting-row strong { font-size: 0.68rem; }
 	.kept-setting-row p { margin-top: 0.25rem; color: #909189; font-size: 0.57rem; }
 	.kept-setting-row p span { font-weight: 700; text-transform: capitalize; }
+	.kept-theme-row { padding-bottom: 0; border-bottom: 0; }
+	.kept-theme-switch { display: grid; grid-template-columns: auto auto auto; align-items: center; gap: 0.45rem; min-height: 2.6rem; padding: 0.45rem 0.55rem; border: 1px solid #d7d2c7; border-radius: 999px; background: #f5f2eb; color: #85877f; }
+	.kept-theme-switch > span { position: relative; width: 2.5rem; height: 1.35rem; border-radius: 999px; background: #d5d2ca; transition: background 0.18s ease; }
+	.kept-theme-switch i { position: absolute; top: 0.18rem; left: 0.18rem; width: 0.99rem; height: 0.99rem; border-radius: 50%; background: #fffefa; box-shadow: 0 1px 3px rgba(32, 35, 31, 0.22); transition: transform 0.18s ease; }
+	.kept-theme-switch.dark { color: #d7c578; }
+	.kept-theme-switch.dark > span { background: #2f7d5b; }
+	.kept-theme-switch.dark i { transform: translateX(1.15rem); }
+	.kept-theme-switch:focus-visible { outline: 3px solid rgba(47, 125, 91, 0.22); outline-offset: 2px; }
 	.permission-granted { color: #2f7d5b; }
 	.permission-denied { color: #b2523e; }
 	.kept-setting-checkbox { display: flex; align-items: flex-start; gap: 0.6rem; padding: 0.8rem; border-radius: 0.7rem; background: #f6f3ec; color: #64665f; }

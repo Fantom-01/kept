@@ -5,6 +5,9 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import App from "./App.jsx";
 import { queryClient } from "./app/api/queryClient.js";
 import { AppProvider } from "./app/context/AppContext.jsx";
+import { initializeTheme } from "./app/theme/theme.js";
+
+initializeTheme();
 
 window.addEventListener("beforeinstallprompt", (event) => {
 	event.preventDefault();

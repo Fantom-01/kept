@@ -1,0 +1,75 @@
+/* A restrained floor for supporting copy that was falling below 10px on phones. */
+:root .kept-shell .kept-bottom-nav a { font-size: 0.64rem; }
+:root .kept-shell .kept-local-chip,
+:root .kept-shell .kept-sidebar-account small { font-size: 0.62rem; }
+
+:root .kept-today .kept-section-heading p { font-size: 0.73rem; line-height: 1.4; }
+:root .kept-today .kept-section-heading > span,
+:root .kept-today .kept-section-heading > a { font-size: 0.68rem; }
+:root .kept-today .kept-rest-day span,
+:root .kept-today .kept-week-note > span { font-size: 0.62rem; }
+:root .kept-today .kept-week-note p { font-size: 0.72rem; }
+:root .kept-today-card .kept-habit-identity p { font-size: 0.7rem; line-height: 1.4; }
+:root .kept-today-card .kept-slot-time { font-size: 0.66rem; }
+:root .kept-today-card .kept-count-actions span,
+:root .kept-today-card .kept-card-detail-link,
+:root .kept-today-card .kept-lapse-button { font-size: 0.64rem; }
+
+:root .kept-milestone-card .kept-milestone-copy > span { font-size: 0.61rem; }
+:root .kept-milestone-card .kept-milestone-copy small { font-size: 0.65rem; }
+:root .kept-milestone-card .kept-milestone-value span { font-size: 0.68rem; }
+:root .kept-milestone-card .kept-milestone-promises span { font-size: 0.59rem; }
+:root .kept-milestone-card .kept-milestone-promises p { font-size: 0.68rem; }
+
+:root .kept-calendar-page .kept-calendar-toolbar > p { font-size: 0.7rem; }
+:root .kept-calendar-page .kept-calendar-stats span,
+:root .kept-calendar-page .kept-calendar-legend { font-size: 0.64rem; line-height: 1.35; }
+:root .kept-month-calendar .kept-calendar-weekdays span { font-size: 0.62rem; }
+:root .kept-month-calendar .kept-calendar-day time { font-size: 0.66rem; }
+:root .kept-month-calendar .kept-day-markers small { font-size: 0.6rem; }
+:root .kept-month-calendar.single-habit .kept-single-state { font-size: 0.61rem; }
+
+:root .kept-progress-page .kept-progress-lead > span { font-size: 0.62rem; }
+:root .kept-progress-page .kept-progress-lead p { font-size: 0.74rem; }
+:root .kept-progress-page .kept-progress-metric small { font-size: 0.63rem; }
+:root .kept-progress-page .kept-progress-section-heading p { font-size: 0.72rem; line-height: 1.4; }
+:root .kept-progress-page .kept-progress-section-heading > span { font-size: 0.66rem; }
+:root .kept-progress-page .kept-week-bars i { font-size: 0.59rem; }
+:root .kept-progress-page .kept-week-bars > div > strong { font-size: 0.63rem; }
+:root .kept-progress-page .kept-progress-habit-title small { font-size: 0.65rem; }
+:root .kept-progress-page .kept-progress-numbers span { font-size: 0.62rem; }
+:root .kept-progress-page .kept-past-milestones summary { font-size: 0.7rem; }
+
+:root .kept-habit-details .kept-detail-hero > div > p { font-size: 0.61rem; }
+:root .kept-habit-details .kept-detail-hero dt,
+:root .kept-habit-details .kept-detail-stat small,
+:root .kept-habit-details .kept-detail-stat p,
+:root .kept-habit-details .kept-history-list small { font-size: 0.63rem; }
+:root .kept-habit-details .kept-detail-section-heading p,
+:root .kept-habit-details .kept-detail-danger p { font-size: 0.69rem; }
+
+:root .kept-habit-form-page .kept-form-progress small,
+:root .kept-habit-form-page .kept-form-preview p,
+:root .kept-habit-form-page .kept-choice small,
+:root .kept-habit-form-page .kept-toggle-row small { font-size: 0.64rem; }
+:root .kept-habit-form-page .kept-form-preview small,
+:root .kept-habit-form-page .kept-form-card-heading > span,
+:root .kept-habit-form-page .kept-review-habit small,
+:root .kept-habit-form-page .kept-review-milestone span,
+:root .kept-habit-form-page .kept-review-note span { font-size: 0.59rem; }
+
+:root .kept-settings-page .kept-settings-grid > nav a { font-size: 0.71rem; }
+:root .kept-settings-page .kept-settings-section header p,
+:root .kept-settings-page .kept-setting-row p,
+:root .kept-settings-page .kept-install-card p { font-size: 0.66rem; }
+:root .kept-settings-page .kept-setting-checkbox small,
+:root .kept-settings-page .kept-ios-note span,
+:root .kept-settings-page .kept-data-note p { font-size: 0.64rem; }
+:root .kept-settings-page .kept-runtime-badge { font-size: 0.59rem; }
+
+:root .kept-day-sheet .kept-day-sheet-body small,
+:root .kept-day-sheet .kept-day-status { font-size: 0.64rem; }
+
+@media (max-width: 700px) {
+	:root .kept-month-calendar .kept-calendar-day time { font-size: 0.63rem; }
+}

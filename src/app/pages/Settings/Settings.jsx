@@ -1,10 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
-import { FiBell, FiCheck, FiDatabase, FiDownload, FiGlobe, FiHardDrive, FiLock, FiRefreshCw, FiSmartphone, FiUser } from "react-icons/fi";
+import { FiBell, FiCheck, FiDatabase, FiDownload, FiGlobe, FiHardDrive, FiLock, FiMoon, FiRefreshCw, FiSmartphone, FiSun, FiUser } from "react-icons/fi";
 import { useOutletContext } from "react-router-dom";
 import { habitApi, runtimeMode } from "../../api/habitApi.js";
 import { queryKeys } from "../../api/queryKeys.js";
+import { useTheme } from "../../hooks/useTheme.js";
 import "./Settings.css";
 
 const commonTimezones = [
@@ -29,6 +30,7 @@ export default function Settings() {
 	const { profile } = useOutletContext();
 	const hosted = runtimeMode === "supabase";
 	const queryClient = useQueryClient();
+	const { theme, toggleTheme } = useTheme();
 	const [form, setForm] = useState(profile);
 	const [permission, setPermission] = useState(() => "Notification" in window ? Notification.permission : "unsupported");
 	const [pushReady, setPushReady] = useState(false);
@@ -137,8 +139,15 @@ export default function Settings() {
 			<div className="kept-page-heading"><div><p className="kept-eyebrow">YOUR SPACE</p><h1>Settings</h1><p>Adjust how Kept feels, reminds you, and stores your record.</p></div></div>
 
 			<div className="kept-settings-grid">
-				<nav aria-label="Settings sections"><a href="#profile"><FiUser /> Profile</a><a href="#reminders"><FiBell /> Reminders</a><a href="#app"><FiSmartphone /> App install</a><a href="#data"><FiDatabase /> Local data</a></nav>
+				<nav aria-label="Settings sections"><a href="#appearance"><FiMoon /> Appearance</a><a href="#profile"><FiUser /> Profile</a><a href="#reminders"><FiBell /> Reminders</a><a href="#app"><FiSmartphone /> App install</a><a href="#data"><FiDatabase /> Local data</a></nav>
 				<div className="kept-settings-content">
+					<section id="appearance" className="kept-settings-section kept-panel">
+						<header><span>{theme === "dark" ? <FiMoon /> : <FiSun />}</span><div><h2>Appearance</h2><p>Choose the palette that feels easiest on your eyes.</p></div></header>
+						<div className="kept-settings-body">
+							<div className="kept-setting-row kept-theme-row"><div><strong>Dark mode</strong><p>{theme === "dark" ? "On · using the low-light palette" : "Off · using the light palette"}</p></div><button type="button" className={`kept-theme-switch ${theme}`} role="switch" aria-checked={theme === "dark"} aria-label="Dark mode" onClick={toggleTheme}><FiSun aria-hidden="true" /><span aria-hidden="true"><i /></span><FiMoon aria-hidden="true" /></button></div>
+						</div>
+					</section>
+
 					<section id="profile" className="kept-settings-section kept-panel">
 						<header><span><FiUser /></span><div><h2>Profile and timezone</h2><p>{hosted ? "Your saved timezone keeps reminders and calendar days aligned wherever you travel." : "The local preview follows this device’s calendar day."}</p></div></header>
 						<form onSubmit={saveProfile}>
