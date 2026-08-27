@@ -17,3 +17,6 @@ content_path = "./supabase/templates/magic_link.html"
 [auth.email.template.confirmation]
 subject = "{{ .Token }} is your Kept confirmation code"
 content_path = "./supabase/templates/confirmation.html"
+
+[functions.send-reminders]
+verify_jwt = false

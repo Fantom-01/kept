@@ -5,7 +5,7 @@ Kept has four hosted pieces:
 1. Supabase owns passwordless authentication and the private database.
 2. Resend delivers the Supabase sign-in code and optional reminder emails.
 3. Vercel serves the React PWA.
-4. A GitHub Actions schedule sends Web Push reminders and email fallbacks.
+4. Supabase Cron invokes a protected Edge Function that sends Web Push reminders and email fallbacks.
 
 ## Public frontend variables
 
@@ -28,11 +28,15 @@ The publishable Supabase key and VAPID public key are safe to expose in the brow
 - Replace the Magic Link email template with `supabase/templates/magic_link.html` and the Confirm sign up template with `supabase/templates/confirmation.html`. Both use `{{ .Token }}`, so new and returning users receive the same six-digit code expected by the app.
 - Connect Resend as the Supabase email provider after its sending domain is verified.
 
-## GitHub Actions reminder job
+## Supabase Cron reminder job
 
-The workflow in `.github/workflows/reminders.yml` runs the reminder worker on a five-minute schedule, offset from the start of the hour to reduce GitHub queue pressure, and can also be dispatched manually. Add the server-only values listed in the workflow as GitHub Actions repository secrets. The worker accepts reminders up to 20 minutes late and deduplicates successful deliveries in `notification_deliveries`.
+The `send-reminders` Edge Function runs from Supabase Cron every five minutes. Its server-only secrets are `APP_URL`, `REMINDER_WORKER_SECRET`, `VAPID_SUBJECT`, `VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY`, `RESEND_API_KEY`, and `RESEND_FROM_EMAIL`. Supabase injects `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` automatically. Store the same `REMINDER_WORKER_SECRET` in Supabase Vault and send it to the function as `x-kept-worker-key`; never expose it in the browser or repository.
+
+The function accepts reminders up to 20 minutes late and deduplicates successful deliveries in `notification_deliveries`. Cron run history is available in `cron.job_run_details`, and Edge Function execution logs are available in the Supabase Dashboard.
 
 Managed Supabase projects can occasionally return `PGRST303: JWT issued at future` when the gateway and PostgREST clocks briefly disagree. The worker retries only this specific transient response with bounded backoff; permissions, invalid credentials, and other permanent errors still fail immediately with the database phase included in the log.
+
+The GitHub Actions workflow remains available through `workflow_dispatch` as a manual fallback only. Do not re-enable its scheduled trigger while Supabase Cron is active, because both workers could race to deliver the same reminder.
 
 ## Acceptance pass
 
@@ -41,5 +45,5 @@ Managed Supabase projects can occasionally return `PGRST303: JWT issued at futur
 - Save and clear build, count, sober, and lapse check-ins.
 - Sign out and back in on another browser and confirm the same record appears.
 - Enable notifications in the installed PWA and confirm `push_subscriptions` receives one row.
-- Temporarily set a habit reminder a few minutes ahead, dispatch the GitHub Actions reminder workflow, and confirm exactly one push or fallback email arrives.
+- Temporarily set a habit reminder a few minutes ahead, confirm the Supabase Cron job invokes `send-reminders`, and verify exactly one push or fallback email arrives.
 - Confirm a second account cannot read or mutate the first account's rows.
